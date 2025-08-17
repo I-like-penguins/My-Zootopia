@@ -25,17 +25,19 @@ def main():
     try:
         template = load_template(TEMPLATE_PATH)
         
-        output_string = ""
+        output_string = f""
         for animal in animals_data:
-            output_string += "<li class=\"cards__item\">\n"
-            output_string += f"Name: {animal['name']} <br />\n"
-            output_string += f"Diet: {animal['characteristics']['diet']}<br />\n"
-            output_string += f"Location: {animal['locations'][0]}<br />\n"
+            output_string += f"<li class=\"cards__item\">\n"
+            output_string += f"  <div class=\"card__title\">{animal['name']}</div>\n"
+            output_string += f"    <p class=\"card__text\">\n"
+            output_string += f"      <strong>Diet:</strong> {animal['characteristics']['diet']}<br />\n"
+            output_string += f"      <strong>Location:</strong> {animal['locations'][0]}<br />\n"
+            output_string += f"      <strong>"
             try:
-                output_string += f"Type: {animal['characteristics']['type']}<br />\n"
+                output_string += f"Type:</strong> {animal['characteristics']['type']}<br />\n"
             except KeyError:
-                output_string += f"Type: Not specified<br />\n"
-            output_string += f"</li>\n"
+                output_string += f"Type:</strong> Not specified<br />\n"
+            output_string += f"    </p>\n</li>\n"
         write_html(OUTPUT_PATH, template.replace("__REPLACE_ANIMALS_INFO__", output_string))
     except FileNotFoundError:
         print("Error handline file input/output")
