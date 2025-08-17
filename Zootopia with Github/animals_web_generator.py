@@ -27,14 +27,15 @@ def main():
         
         output_string = ""
         for animal in animals_data:
-            output_string += f"Name: {animal['name']}\n"
-            output_string += f"Diet: {animal['characteristics']['diet']}\n"
-            output_string += f"Location: {animal['locations'][0]}\n"
+            output_string += "<li class=\"cards__item\">\n"
+            output_string += f"Name: {animal['name']} <br />\n"
+            output_string += f"Diet: {animal['characteristics']['diet']}<br />\n"
+            output_string += f"Location: {animal['locations'][0]}<br />\n"
             try:
-                output_string += f"Type: {animal['characteristics']['type']}\n"
+                output_string += f"Type: {animal['characteristics']['type']}<br />\n"
             except KeyError:
-                output_string += f"Type: Not specified\n"
-            output_string += f"\n"
+                output_string += f"Type: Not specified<br />\n"
+            output_string += f"</li>\n"
         write_html(OUTPUT_PATH, template.replace("__REPLACE_ANIMALS_INFO__", output_string))
     except FileNotFoundError:
         print("Error handline file input/output")
