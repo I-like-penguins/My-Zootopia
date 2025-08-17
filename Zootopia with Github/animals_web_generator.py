@@ -19,6 +19,21 @@ def write_html(file_path, content):
     with open(file_path, "w") as file:
         file.write(content)
 
+def serialize_animal(animal) -> str:
+    """ Serialize an animal object """
+    output_string = f""
+    output_string += f"<li class=\"cards__item\">\n"
+    output_string += f"  <div class=\"card__title\">{animal['name']}</div>\n"
+    output_string += f"    <div class=\"card__text\">\n     <ul>\n"
+    output_string += f"        <li><strong>Diet:</strong> {animal['characteristics']['diet']}</li>\n"
+    output_string += f"        <li><strong>Location:</strong> {animal['locations'][0]}</li>\n"
+    output_string += f"        <li><strong>"
+    try:
+        output_string += f"Type:</strong> {animal['characteristics']['type']}</li>\n"
+    except KeyError:
+        output_string += f"Type:</strong> Not specified</li>\n"
+    output_string += f"     </ul>\n    </div>\n</li>\n"
+    return output_string
 
 def main():
     animals_data = load_data(JSON_PATH)
@@ -27,17 +42,7 @@ def main():
         
         output_string = f""
         for animal in animals_data:
-            output_string += f"<li class=\"cards__item\">\n"
-            output_string += f"  <div class=\"card__title\">{animal['name']}</div>\n"
-            output_string += f"    <p class=\"card__text\">\n"
-            output_string += f"      <strong>Diet:</strong> {animal['characteristics']['diet']}<br />\n"
-            output_string += f"      <strong>Location:</strong> {animal['locations'][0]}<br />\n"
-            output_string += f"      <strong>"
-            try:
-                output_string += f"Type:</strong> {animal['characteristics']['type']}<br />\n"
-            except KeyError:
-                output_string += f"Type:</strong> Not specified<br />\n"
-            output_string += f"    </p>\n</li>\n"
+            output_string += serialize_animal(animal)
         write_html(OUTPUT_PATH, template.replace("__REPLACE_ANIMALS_INFO__", output_string))
     except FileNotFoundError:
         print("Error handline file input/output")
